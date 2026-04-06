@@ -5,10 +5,22 @@
 groups = ["default", "dev"]
 strategy = []
 lock_version = "4.5.0"
-content_hash = "sha256:357384415e76ba83b8bc52f62163beafca6ba25d1f7969a77d80cb4f821c50f0"
+content_hash = "sha256:47fd4b34607048976f66244e4ae7e57f4bb8c7d07258c078e3a0ca73163fdbaf"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
+
+[[package]]
+name = "click"
+version = "8.3.2"
+summary = ""
+dependencies = [
+    "colorama; sys_platform == \"win32\"",
+]
+files = [
+    {file = "click-8.3.2-py3-none-any.whl", hash = "sha256:1924d2c27c5653561cd2cae4548d1406039cb79b858b747cfea24924bbc1616d"},
+    {file = "click-8.3.2.tar.gz", hash = "sha256:14162b8b3b3550a7d479eafa77dfd3c38d9dc8951f6f69c78913a8f9a7540fd5"},
+]
 
 [[package]]
 name = "colorama"

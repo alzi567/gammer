@@ -1,49 +1,28 @@
 """Main module."""
+
 import logging
-from argparse import ArgumentParser
+from pathlib import Path
 
-from rich.logging import RichHandler
+import click
 
-from .multiply import multiply
-
-FORMAT = "%(message)s"
-logging.basicConfig(
-    level="NOTSET",
-    format=FORMAT,
-    handlers=[RichHandler(rich_tracebacks=True)],
-)
+from gammer.gam import Gam
+from gammer.generate import generate_something
 
 logging.basicConfig(level=logging.DEBUG)
 
-# first number to be multiplied
-FIRST_NUMBER = 3
 
-
-def parse_args():
-    """Parse command-line args."""
-    parser = ArgumentParser(
-        prog="gammer",
-        description="Python skeleton app. Will multiply 3 with another value.",
-    )
-
-    parser.add_argument(
-        "--multiplicator",
-        "-m",
-        type=int,
-        help="set the multiplicator",
-        default=5,
-    )
-
-    return parser.parse_args()
-
-
-def main():
+@click.command()
+@click.argument("output", type=click.Path(exists=False, dir_okay=False))
+def cli(output: Path):
     """Main function.
 
     Either the entrance point of the command line interface or a simple example
     on how to use this package.
     """
-    args = parse_args()
+    objects = generate_something()
+    gam = Gam()
+    gam.write(filename=Path(output), objects=objects)
 
-    result = multiply(FIRST_NUMBER, args.multiplicator)
-    logging.info("The result of %s x %s = %s", FIRST_NUMBER, args.multiplicator, result)
+
+if __name__ == "__main__":
+    cli()
