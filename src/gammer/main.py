@@ -13,16 +13,22 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 @click.command()
+@click.option(
+    "--margin",
+    type=float,
+    default=0.0,
+    help=("gutter between the cubes. 0 means no gutter, 1 means a space of one cube size between each cubes."),
+)
 @click.argument("image", type=click.Path(exists=True, dir_okay=False))
 @click.argument("output", type=click.Path(exists=False, dir_okay=False))
-def cli(image: Path, output: Path):
-    """Main function.
+def cli(image: Path, output: Path, margin: float):
+    """Extract pixels from the given image file and render a GAM file representing this image.
 
-    Either the entrance point of the command line interface or a simple example
-    on how to use this package.
+    The first argument [image] is the filename of the image input file (JPG). The second argument [output] is the
+    GAM output file which will be generated.
     """
     pixels = get_pixel_matrix(image_path=image)
-    objects = image_to_cubes(pixels=pixels)
+    objects = image_to_cubes(pixels=pixels, margin=margin)
 
     # objects = generate_something()
     gam = Gam()

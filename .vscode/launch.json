@@ -10,7 +10,7 @@
             "request": "launch",
             "module": "gammer.main",
             "args": [
-                "gesicht.jpg",
+                "kri_auge.jpg",
                 "test.gap"
             ]
         },

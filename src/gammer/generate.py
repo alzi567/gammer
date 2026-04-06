@@ -29,7 +29,7 @@ def generate_something() -> list[GamObject]:
     return objects
 
 
-def image_to_cubes(pixels) -> list[GamObject]:
+def image_to_cubes(pixels, margin: float = 0) -> list[GamObject]:
     """Convert image pixels to GamCubes.
 
     Args:
@@ -39,16 +39,16 @@ def image_to_cubes(pixels) -> list[GamObject]:
         list[GamObject]: _description_
     """
     objects = []
-    grid = 1.1
+    grid = 1.0 + margin
     for y, row in enumerate(pixels):
         for x, col in enumerate(row):
             objects.append(
                 GamCube(
-                    x=x * grid,
-                    y=y * grid,
+                    x=y * grid,
+                    y=x * grid,
                     z=0,
                     side_length=1,
-                    color=GamColor(r=col[0], g=col[1], b=col[2]),
+                    color=GamColor(r=int(col[0]), g=int(col[1]), b=int(col[2])),
                 )
             )
     return objects

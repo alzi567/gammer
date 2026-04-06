@@ -23,7 +23,7 @@ classifiers = [
 distribution = true
 
 [project.scripts]
-rungammer = "gammer.main:cli"
+gammer = "gammer.main:cli"
 
 [tool.pdm.dev-dependencies]
 dev = ["pytest", "coverage", "pytest-cov"]
