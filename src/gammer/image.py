@@ -1,5 +1,6 @@
 """Extract pixels from an image."""
 
+import re
 from pathlib import Path
 
 import numpy as np
@@ -15,6 +16,12 @@ def parse_size(size: str) -> tuple[int, int]:
     Returns:
         tuple[int,int]: the tuple of (max_x, max_y)
     """
+    pattern = r"^\d+x\d+$"
+
+    if not re.match(pattern, size):
+        msg = f"wrong format in 'size' option. Expected something like '20x10', but found: '{size}'"
+        raise ValueError(msg)
+
     x, y = size.split("x")
     return int(x), int(y)
 
@@ -63,9 +70,6 @@ def get_pixel_matrix(image_path: Path, size: str | None = None) -> None:
 
     except FileNotFoundError:
         print(f"Fehler: Die Datei '{image_path}' wurde nicht gefunden.")
-        return None
-    except Exception as e:
-        print(f"Ein Fehler ist aufgetreten: {e}")
         return None
 
 
