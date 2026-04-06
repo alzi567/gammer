@@ -6,11 +6,26 @@ import numpy as np
 from PIL import Image
 
 
-def get_pixel_matrix(image_path: Path) -> None:
+def parse_size(size: str) -> tuple[int, int]:
+    """Parse the size string into a tuple of (x, y).
+
+    Args:
+        size (str): size string in the format XxY, e.g. '30x40'
+
+    Returns:
+        tuple[int,int]: the tuple of (max_x, max_y)
+    """
+    x, y = size.split("x")
+    return int(x), int(y)
+
+
+def get_pixel_matrix(image_path: Path, size: str | None = None) -> None:
     """Extrahiert die Pixelmatrix aus einer JPG-Datei.
 
     Args:
         image_path (Path): Der Pfad zur JPG-Datei.
+        size (str | None, optional): restrict GAM output to a maximum number of x and y pixels.
+            Format: XxY, e.g. '40x30'. Aspect ratio will be preserved. Defaults to None.
 
     Returns:
         numpy.ndarray: Eine 3D-NumPy-Array, das die Pixelmatrix darstellt,
@@ -24,7 +39,17 @@ def get_pixel_matrix(image_path: Path) -> None:
         print(f"Bild erfolgreich geöffnet: {image_path}")
         print(f"Bildformat: {img.format}")
         print(f"Bildmodus: {img.mode}")  # Z.B. 'RGB' für Farbbilder, 'L' für Graustufen
-        print(f"Bildgröße: {img.size} (Breite x Höhe)")
+        print(f"Originale Bildgröße: {img.size} (Breite x Höhe)")
+
+        if size:
+            # size give => restrict image to the given size, if it is bigger
+            img_width, img_height = img.size
+
+            max_width, max_height = parse_size(size)
+            if img_width > max_width or img_height > max_height:
+                img.thumbnail((max_width, max_height))
+
+            print(f"Heruntergerechnete Bildgröße: {img.size} (Breite x Höhe)")
 
         # 2. Das Bild in ein NumPy-Array umwandeln
         # Dies ist die gängigste Methode, um die Pixelmatrix zu erhalten.

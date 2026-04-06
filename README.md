@@ -1,6 +1,13 @@
 # gammer
 
-GAM generator
+GAM generator.
+
+Read all pixels from an image file and generate GAM cubes of the same color as the image pixels as a GAM project file.
+
+## Example Usage
+
+Get a
+
 
 ## Setup for development
 
