@@ -1,0 +1,3 @@
+include:
+  - project: 'bmd-se/ci-cd/pypideploy'
+    file: '/inc/pypideploy-pdm.yml'

@@ -1,0 +1,254 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "gammer"
+version = "0.0.1"
+description = "GAM generator"
+authors = [
+    {name = "Alexander Eck-Zimmer", email = "alexander.eckzimmer@gmail.com"},
+]
+dependencies = ["rich"]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Siemens License",
+    "Operating System :: OS Independent",
+]
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+gammer = "gammer.__main__:main"
+
+[tool.pdm.scripts]
+# define some tasks to be run in your projects
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest",
+    "coverage",
+    "pytest-cov",
+]
+
+[[tool.pdm.source]]
+name = "captain"
+url = "https://captain.rtf.siemens.net/artifactory/api/pypi/bmd-dev-internal-pypi/simple"
+verify_ssl = true
+
+[tool.ruff]
+line-length = 120
+fix = true
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+# ANN101: self needs to be annotated
+# ANN102: cls needs to be annotated
+ignore = ["ANN101", "ANN102"]
+
+[tool.ruff.lint.per-file-ignores]
+# ANN201: missing return type annotation
+# S101: use of assert detected
+# PLR2004: magic value used in comparison
+# F401: unused imports
+"main.py" = ["ANN201"]
+"test*.py" = ["ANN201", "S101", "PLR2004"]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-builtins]
+builtins-ignorelist = ["id"]
+
+[tool.pylint.main]
+load-plugins = [
+    "pylint.extensions.bad_builtin",
+    "pylint.extensions.typing",
+    "pylint.extensions.docparams",
+    "pylint.extensions.overlapping_exceptions",
+    "pylint.extensions.dict_init_mutate",
+    "pylint.extensions.confusing_elif",
+    "pylint.extensions.code_style",
+    "pylint.extensions.redefined_variable_type",
+]
+
+[tool.pylint."messages control"]
+# only enable rules not implemented by ruff
+# this is tracked here https://github.com/astral-sh/ruff/issues/970
+# commented rules are disabled by preference
+disable = "all"
+enable = [
+    "abstract-class-instantiated",
+    "access-member-before-definition",
+    "assignment-from-no-return",
+    "assignment-from-none",
+    "bad-except-order",
+    "bad-exception-cause",
+    "bad-reversed-sequence",
+    "catching-non-exception",
+    "class-variable-slots-conflict",
+    "dict-iter-missing-items",
+    "import-error",
+    "inconsistent-mro",
+    "inherit-non-class",
+    "invalid-character-carriage-return",
+    "invalid-class-object",
+    "invalid-enum-extension",
+    "invalid-envvar-value",
+    "invalid-format-returned",
+    "invalid-getnewargs-ex-returned",
+    "invalid-getnewargs-returned",
+    "invalid-length-hint-returned",
+    "invalid-metaclass",
+    "invalid-repr-returned",
+    "invalid-sequence-index",
+    "invalid-slice-index",
+    "invalid-slice-step",
+    "invalid-slots",
+    "invalid-slots-object",
+    "invalid-star-assignment-target",
+    "invalid-str-returned",
+    "invalid-unary-operand-type",
+    "invalid-unicode-codec",
+    "logging-format-truncated",
+    "logging-unsupported-format",
+    "method-hidden",
+    "misplaced-format-function",
+    "missing-kwoa",
+    "modified-iterating-dict",
+    "no-member",
+    "no-method-argument",
+    "no-name-in-module",
+    "no-value-for-parameter",
+    "non-iterator-returned",
+    "not-a-mapping",
+    "not-an-iterable",
+    "not-async-context-manager",
+    "not-callable",
+    "not-context-manager",
+    "raising-bad-type",
+    "raising-non-exception",
+    "redundant-keyword-arg",
+    "star-needs-assignment-target",
+    "too-many-function-args",
+    "unexpected-keyword-arg",
+    "unhashable-member",
+    "unpacking-non-sequence",
+    "unsubscriptable-object",
+    "unsupported-assignment-operation",
+    "unsupported-binary-operation",
+    "unsupported-delete-operation",
+    "unsupported-membership-test",
+    "used-before-assignment",
+    "abstract-method",
+    "anomalous-unicode-escape-in-string",
+    "arguments-differ",
+    "arguments-out-of-order",
+    "arguments-renamed",
+    "attribute-defined-outside-init",
+    "bad-builtin",
+    "bad-chained-comparison",
+    "bad-format-string-key",
+    "bad-indentation",
+    "bad-thread-instantiation",
+    "comparison-with-callable",
+    "confusing-with-statement",
+    "deprecated-argument",
+    "deprecated-class",
+    "deprecated-decorator",
+    "deprecated-method",
+    "deprecated-module",
+    "deprecated-typing-alias",
+    "differing-param-doc",
+    "differing-type-doc",
+    "duplicate-string-formatting-argument",
+    "global-variable-undefined",
+    "invalid-format-index",
+    "invalid-overridden-method",
+    "isinstance-second-argument-not-valid-type",
+    # "missing-any-param-doc",
+    "missing-format-attribute",
+    # "missing-param-doc",
+    "missing-parentheses-for-call-in-test",
+    # "missing-raises-doc",
+    "missing-return-type-doc",
+    "missing-timeout",
+    "missing-type-doc",
+    # "missing-yield-doc",
+    "missing-yield-type-doc",
+    "modified-iterating-list",
+    "multiple-constructor-doc",
+    "non-parent-init-called",
+    "non-str-assignment-to-dunder-name",
+    "overlapping-except",
+    "overridden-final-method",
+    "pointless-string-statement",
+    "possibly-unused-variable",
+    "preferred-module",
+    "raising-format-tuple",
+    "redeclared-assigned-name",
+    "redefined-outer-name",
+    "redefined-slots-in-subclass",
+    "redundant-returns-doc",
+    "redundant-unittest-assert",
+    "redundant-yields-doc",
+    "self-cls-assignment",
+    "shallow-copy-environ",
+    "signature-differs",
+    "subclassed-final-class",
+    "super-init-not-called",
+    # "too-many-try-statements",
+    "unbalanced-dict-unpacking",
+    "unbalanced-tuple-unpacking",
+    "undefined-loop-variable",
+    "unnecessary-ellipsis",
+    "unreachable",
+    "unused-private-member",
+    "unused-wildcard-import",
+    # "useless-param-doc",
+    "useless-parent-delegation",
+    # "useless-type-doc",
+    "using-constant-test",
+    "using-final-decorator-in-unsupported-version",
+    # "while-used",
+    "wrong-exception-operation",
+    "bad-file-encoding",
+    "bad-mcs-classmethod-argument",
+    "bad-mcs-method-argument",
+    # "compare-to-zero",
+    "consider-using-enumerate",
+    "consider-using-f-string",
+    "dict-init-mutate",
+    "disallowed-name",
+    "invalid-characters-in-docstring",
+    "mixed-line-endings",
+    "superfluous-parens",
+    "unexpected-line-ending-format",
+    # "use-implicit-booleaness-not-comparison",
+    "use-maxsplit-arg",
+    "wrong-spelling-in-comment",
+    "wrong-spelling-in-docstring",
+    "chained-comparison",
+    "condition-evals-to-constant",
+    "confusing-consecutive-elif",
+    "consider-swap-variables",
+    # "consider-using-assignment-expr",
+    "consider-using-join",
+    "consider-using-namedtuple-or-dataclass",
+    # "consider-using-tuple",
+    "cyclic-import",
+    "duplicate-code",
+    "redefined-variable-type",
+    "simplifiable-condition",
+    "simplify-boolean-expression",
+    "stop-iteration-return",
+    # "too-few-public-methods",
+    "too-many-ancestors",
+    "too-many-instance-attributes",
+]

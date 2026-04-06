@@ -1,0 +1,11 @@
+_commit: 2.1.5
+_src_path: git@code.siemens.com:bmd-se/bmd-python-skeleton.git
+email: alexander.eckzimmer@gmail.com
+full_name: Alexander Eck-Zimmer
+line_length: '120'
+package_name: gammer
+package_name_prefix: gammer
+project_name: gammer
+project_name_prefix: gammer
+project_short_description: GAM generator
+python: '3.10'
