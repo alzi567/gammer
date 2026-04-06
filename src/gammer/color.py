@@ -16,5 +16,5 @@ class GamColor:
         Returns:
             str: _description_
         """
-        color = int(self.r << 16) + int(self.g << 8) + int(self.b)
+        color = int(self.b << 16) + int(self.g << 8) + int(self.r)
         return f"{color:d}"

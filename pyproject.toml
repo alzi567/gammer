@@ -9,7 +9,7 @@ description = "GAM generator"
 authors = [
     { name = "Alexander Eck-Zimmer", email = "alexander.eckzimmer@gmail.com" },
 ]
-dependencies = ["rich", "click>=8.3.2"]
+dependencies = ["rich", "click>=8.3.2", "pillow>=12.2.0", "numpy"]
 requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
