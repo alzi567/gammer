@@ -16,10 +16,10 @@ Get a GAP file from an image:
 gammer image.jpg output.gap
 ```
 
-Limit to a maximum size with the `--size` option:
+Limit to a maximum size with the `--limit` option:
 
 ```
-gammer --size 20x20 image.jpg output.gap
+gammer --limit 20x20 image.jpg output.gap
 ```
 
 Limit to a maximum size of 1400 pixels in total with the `--max-pixels` option (the image will be downscaled, preserving its original aspect ratio):
@@ -31,13 +31,13 @@ gammer --max-pixels 1400 image.jpg output.gap
 Dismiss colors with the `--bw` flag:
 
 ```
-gammer --bw --size 20x20 image.jpg output_gray.gap
+gammer --bw --limit 20x20 image.jpg output_gray.gap
 ```
 
 Add margin of half the size of one "pixel" cube between each "pixel" using the `--margin` option:
 
 ```
-gammer --margin 0.5 --bw --size 20x20 image.jpg output_gray.gap
+gammer --margin 0.5 --bw --limit 20x20 image.jpg output_gray.gap
 ```
 
 Show usage screen:
