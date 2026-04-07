@@ -4,10 +4,41 @@ GAM generator.
 
 Read all pixels from an image file and generate GAM cubes of the same color as the image pixels as a GAM project file.
 
+## Installation
+
+Install the package (preferably with pipx). The executable is called `gammer`.
+
 ## Example Usage
 
-Get a
+Get a GAP file from an image:
 
+```
+gammer image.jpg output.gap
+```
+
+Limit to a maximum size with the `--size` option:
+
+```
+gammer --size 20x20 image.jpg output.gap
+```
+
+Dismiss colors with the `--bw` flag:
+
+```
+gammer --bw --size 20x20 image.jpg output_gray.gap
+```
+
+Add margin of half the size of one "pixel" cube between each "pixel" using the `--margin` option:
+
+```
+gammer --margin 0.5 --bw --size 20x20 image.jpg output_gray.gap
+```
+
+Show usage screen:
+
+```
+gammer --help
+```
 
 ## Setup for development
 

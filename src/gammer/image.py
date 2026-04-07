@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 def parse_size(size: str) -> tuple[int, int]:
@@ -26,7 +26,7 @@ def parse_size(size: str) -> tuple[int, int]:
     return int(x), int(y)
 
 
-def get_pixel_matrix(image_path: Path, size: str | None = None) -> None:
+def get_pixel_matrix(image_path: Path, bw: bool, size: str | None = None) -> None:
     """Extrahiert die Pixelmatrix aus einer JPG-Datei.
 
     Args:
@@ -57,6 +57,11 @@ def get_pixel_matrix(image_path: Path, size: str | None = None) -> None:
                 img.thumbnail((max_width, max_height))
 
             print(f"Heruntergerechnete Bildgröße: {img.size} (Breite x Höhe)")
+
+        if bw:
+            # make grayscale image
+            img = ImageOps.grayscale(img)
+            print("Umgewandelt auf Graustufen.")
 
         # 2. Das Bild in ein NumPy-Array umwandeln
         # Dies ist die gängigste Methode, um die Pixelmatrix zu erhalten.

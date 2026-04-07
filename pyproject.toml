@@ -4,7 +4,7 @@ build-backend = "pdm.backend"
 
 [project]
 name = "gammer"
-version = "0.0.2"
+version = "0.0.3"
 description = "GAM generator"
 authors = [
     { name = "Alexander Eck-Zimmer", email = "alexander.eckzimmer@gmail.com" },

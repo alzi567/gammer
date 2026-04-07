@@ -10,8 +10,9 @@
             "request": "launch",
             "module": "gammer.main",
             "args": [
+                "--bw",
                 "--size",
-                "10xc",
+                "10x10",
                 "kri_auge.jpg",
                 "test.gap"
             ]

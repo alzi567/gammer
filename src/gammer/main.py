@@ -29,15 +29,20 @@ logging.basicConfig(level=logging.DEBUG)
         "maximum size of image. A bigger image will be downscaled to this size. In the format XxY, e.g. '--size 30x40'"
     ),
 )
+@click.option(
+    "--bw",
+    is_flag=True,
+    help=("use grayscale version of image (no colors)"),
+)
 @click.argument("image", type=click.Path(exists=True, dir_okay=False))
 @click.argument("output", type=click.Path(exists=False, dir_okay=False))
-def cli(image: Path, output: Path, margin: float, size: str):
+def cli(image: Path, output: Path, margin: float, size: str, bw: bool):
     """Extract pixels from the given image file and render a GAM file representing this image.
 
     The first argument [image] is the filename of the image input file (JPG, PNG, ...).
     The second argument [output] is the GAM output file which will be generated.
     """
-    pixels = get_pixel_matrix(image_path=image, size=size)
+    pixels = get_pixel_matrix(image_path=image, size=size, bw=bw)
     objects = image_to_cubes(pixels=pixels, margin=margin)
 
     # objects = generate_something()
