@@ -1,14 +1,38 @@
 """Extract pixels from an image."""
 
 import re
+from math import floor, sqrt
 from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageOps
 
 
-def parse_size(size: str) -> tuple[int, int]:
-    """Parse the size string into a tuple of (x, y).
+def get_dimensions(width: int, height: int, pixels: int) -> tuple[int, int]:
+    """From a maximum number of pixels, calculate the reduced width and height, preserving the aspect ratio.
+
+    Args:
+        width (int): the original width of the image
+        height (int): the original height of the image
+        pixels (int): the maximum number of pixels in the reduced image
+
+    Returns:
+        tuple[int, int]: width and height of the reduced image, having the same aspect ration and the specified
+            maximum number of pixels
+    """
+    aspect_ratio = height / width
+
+    # height = aspect_ratio * width
+
+    # pixels = width * height = width * aspect_ratio * width
+    reduced_width = floor(sqrt(pixels / aspect_ratio))
+    reduced_height = floor(reduced_width * aspect_ratio)
+
+    return reduced_width, reduced_height
+
+
+def parse_limit(size: str) -> tuple[int, int]:
+    """Parse the limit string into a tuple of (x, y).
 
     Args:
         size (str): size string in the format XxY, e.g. '30x40'
@@ -26,13 +50,16 @@ def parse_size(size: str) -> tuple[int, int]:
     return int(x), int(y)
 
 
-def get_pixel_matrix(image_path: Path, bw: bool, size: str | None = None) -> None:
-    """Extrahiert die Pixelmatrix aus einer JPG-Datei.
+def get_pixel_matrix(image_path: Path, bw: bool, limit: str | None = None, max_pixels: int | None = None) -> None:
+    """Extract pixel matrix from an image file.
 
     Args:
         image_path (Path): Der Pfad zur JPG-Datei.
-        size (str | None, optional): restrict GAM output to a maximum number of x and y pixels.
-            Format: XxY, e.g. '40x30'. Aspect ratio will be preserved. Defaults to None.
+        limit (str | None, optional): restrict GAM output to a maximum number of x and y pixels.
+            Format:
+                * either: XxY, e.g. '40x30'. Aspect ratio will be preserved. Defaults to None.
+                * or: XXpx, e.g. '500px'. Specifies the maximum number of pixels of the downscaled image.
+        max_pixels (int | None, optional): restrict GAM output to this maximum number of total pixels.
 
     Returns:
         numpy.ndarray: Eine 3D-NumPy-Array, das die Pixelmatrix darstellt,
@@ -48,15 +75,22 @@ def get_pixel_matrix(image_path: Path, bw: bool, size: str | None = None) -> Non
         print(f"Bildmodus: {img.mode}")  # Z.B. 'RGB' für Farbbilder, 'L' für Graustufen
         print(f"Originale Bildgröße: {img.size} (Breite x Höhe)")
 
-        if size:
-            # size give => restrict image to the given size, if it is bigger
-            img_width, img_height = img.size
+        # size give => restrict image to the given size, if it is bigger
+        img_width, img_height = img.size
 
-            max_width, max_height = parse_size(size)
-            if img_width > max_width or img_height > max_height:
-                img.thumbnail((max_width, max_height))
+        if max_pixels:
+            max_width1, max_height1 = get_dimensions(width=img_width, height=img_height, pixels=max_pixels)
+            if img_width > max_width1 or img_height > max_height1:
+                img.thumbnail((max_width1, max_height1))
+                new_x, new_y = img.size
+                print(f"Heruntergerechnete Bildgröße: {img.size} (Breite x Höhe) = {new_x * new_y} pixels.")
 
-            print(f"Heruntergerechnete Bildgröße: {img.size} (Breite x Höhe)")
+        if limit:
+            max_width2, max_height2 = parse_limit(limit)
+            if img_width > max_width2 or img_height > max_height2:
+                img.thumbnail((max_width2, max_height2))
+                new_x, new_y = img.size
+                print(f"Heruntergerechnete Bildgröße: {img.size} (Breite x Höhe) = {new_x * new_y} pixels.")
 
         if bw:
             # make grayscale image
@@ -71,11 +105,11 @@ def get_pixel_matrix(image_path: Path, bw: bool, size: str | None = None) -> Non
         print(f"Form der Pixelmatrix: {pixel_matrix.shape}")
         print(f"Datentyp der Pixelmatrix: {pixel_matrix.dtype}")
 
-        return pixel_matrix
-
     except FileNotFoundError:
         print(f"Fehler: Die Datei '{image_path}' wurde nicht gefunden.")
         return None
+    else:
+        return pixel_matrix
 
 
 # --- Beispielanwendung ---

@@ -4,12 +4,12 @@ build-backend = "pdm.backend"
 
 [project]
 name = "gammer"
-version = "0.0.3"
+version = "0.0.4"
 description = "GAM generator"
 authors = [
     { name = "Alexander Eck-Zimmer", email = "alexander.eckzimmer@gmail.com" },
 ]
-dependencies = ["rich", "click>=8.3.2", "pillow>=12.2.0", "numpy"]
+dependencies = ["rich", "click>=8.3.2", "pillow>=12.2.0", "numpy", "pyinstaller>=6.19.0"]
 requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }

@@ -22,6 +22,12 @@ Limit to a maximum size with the `--size` option:
 gammer --size 20x20 image.jpg output.gap
 ```
 
+Limit to a maximum size of 1400 pixels in total with the `--max-pixels` option (the image will be downscaled, preserving its original aspect ratio):
+
+```
+gammer --max-pixels 1400 image.jpg output.gap
+```
+
 Dismiss colors with the `--bw` flag:
 
 ```

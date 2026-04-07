@@ -23,10 +23,19 @@ logging.basicConfig(level=logging.DEBUG)
     ),
 )
 @click.option(
-    "--size",
+    "--limit",
     type=str,
     help=(
-        "maximum size of image. A bigger image will be downscaled to this size. In the format XxY, e.g. '--size 30x40'"
+        "limit image dimensions. A bigger image will be downscaled to this size."
+        "The value is the new dimensions specified in the format XxY (e.g. '--size 30x40')."
+    ),
+)
+@click.option(
+    "--max-pixels",
+    type=int,
+    help=(
+        "limit image dimensions to this number of pixels. A bigger image will be downscaled to this size, "
+        "preserving its original aspect ratio. "
     ),
 )
 @click.option(
@@ -36,13 +45,13 @@ logging.basicConfig(level=logging.DEBUG)
 )
 @click.argument("image", type=click.Path(exists=True, dir_okay=False))
 @click.argument("output", type=click.Path(exists=False, dir_okay=False))
-def cli(image: Path, output: Path, margin: float, size: str, bw: bool):
+def cli(image: Path, output: Path, margin: float, limit: str, max_pixels: int, bw: bool):
     """Extract pixels from the given image file and render a GAM file representing this image.
 
     The first argument [image] is the filename of the image input file (JPG, PNG, ...).
     The second argument [output] is the GAM output file which will be generated.
     """
-    pixels = get_pixel_matrix(image_path=image, size=size, bw=bw)
+    pixels = get_pixel_matrix(image_path=image, limit=limit, max_pixels=max_pixels, bw=bw)
     objects = image_to_cubes(pixels=pixels, margin=margin)
 
     # objects = generate_something()
